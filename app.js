@@ -1,4 +1,9 @@
 let kittens = []
+
+let uniqueName = Array.from(new Set(kittens.map(a => a.id))).map(id => {
+  return kittens.find(a => a.id === id)
+})
+console.log(uniqueName)
 /**
  * Called when submitting the new Kitten Form
  * This method will pull data from the form
@@ -7,13 +12,41 @@ let kittens = []
  * Then reset the form
  */
 function addKitten(event) {
+  event.preventDefault()
+  let form = event.target
+
+  let kitten = {
+    id: generateId(),
+    name: form.name.value,
+    mood: "Confused",
+    affection: 3,
+  }
+
+  findKittenByName()
+  kittens.push(kitten)
+  saveKittens()
+  form.reset()
+  document.getElementById('addKitten')?.classList.toggle("hidden")
 }
 
+function findKittenByName(name) {
+  let cat = kittens.find(kittens => kittens.name == name)
+  if (cat == 1){
+    throw new Error("Invalid Kitten Name")
+  }
+  return(cat)
+}
+
+function showKittenForm() {
+  document.getElementById('addKitten')?.classList.toggle("hidden")
+}
 /**
  * Converts the kittens array to a JSON string then
  * Saves the string to localstorage at the key kittens 
  */
 function saveKittens() {
+  window.localStorage.setItem("kittens", JSON.stringify(kittens))
+  drawKittens()
 }
 
 /**
@@ -22,12 +55,37 @@ function saveKittens() {
  * the kittens array to the retrieved array
  */
 function loadKittens() {
+  let storedKittens = JSON.parse(window.localStorage.getItem("kittens"))
+  if(storedKittens) {
+    kittens = storedKittens
+  }
 }
 
 /**
  * Draw all of the kittens to the kittens element
  */
 function drawKittens() {
+  let kittenListElement = document.getElementById("kittens")
+  let kittenMoodElement = document.getElementById("kittens")
+  
+  let kittensTemplate = ""
+  kittens.forEach(kitten => {
+    kittensTemplate += `
+    <div id="kittens" class="d-flex align-items-center flex-wrap">
+    <img id="kittenPicture" class="kitten" src="cat-7563332_1280.png" height="200" alt="Moody Kittens">
+    </div>
+    <div>
+      <p class="catName">${kitten.name}</p>
+      <b>Mood: ${kitten.mood}  </b>
+      <p id="affectionCount">Affection: ${kitten.affection}  </p>
+      <input type="button" class="button" : hover : focus value="PET" onclick="pet('${kitten.id}')">
+      <input type="button" class="button" : hover : focus  value="Give Catnip" onclick="catnip('${kitten.id}')">
+    </div>
+    `
+  })
+  kittenListElement.innerHTML = kittensTemplate
+ 
+  
 }
 
 
@@ -37,6 +95,13 @@ function drawKittens() {
  * @return {Kitten}
  */
 function findKittenById(id) {
+  let cat = kittens.find(kittens => kittens.id == id)
+  if (cat == -1){
+    throw new Error("Invalid Kitten Id")
+  }
+  return(cat)
+  saveKittens()
+  
 }
 
 
@@ -49,6 +114,15 @@ function findKittenById(id) {
  * @param {string} id 
  */
 function pet(id) {
+  let kitten = findKittenById(id)
+  
+  if(Math.random() >= 0.5){
+    kitten.affection ++
+  }else{
+    kitten.affection -= 1
+  }
+setKittenMood(kitten)
+console.log(kitten)
 }
 
 /**
@@ -58,6 +132,11 @@ function pet(id) {
  * @param {string} id
  */
 function catnip(id) {
+  let kitten = findKittenById(id)
+  kitten.mood = "Tolerant"
+  kitten.affection = 5
+  setKittenMood(kitten)
+  console.log(kitten)
 }
 
 /**
@@ -65,13 +144,30 @@ function catnip(id) {
  * @param {Kitten} kitten 
  */
 function setKittenMood(kitten) {
+  if(kitten.affection >= 5){
+    kitten.mood = "Happy"
+    let image = document.getElementById('kittenPicture')
+    image.src = 'cat-7563332_1280.png'
+  }else{
+    kitten.mood = "Annoyed"
+    let image = document.getElementById('kittenPicture')
+    image.src = 'b6cca355c8343e0cb7b3c80ba0e04ff4.jpg'
 }
+
+}
+
+
+
+
 
 /**
  * Removes all of the kittens from the array
  * remember to save this change
  */
 function clearKittens(){
+  document.getElementById('clearKittens')
+  kittens.splice(0, kittens.length)
+  saveKittens()
 }
 
 /**
@@ -81,6 +177,8 @@ function clearKittens(){
 function getStarted() {
   document.getElementById("welcome").remove();
   console.log('Good Luck, Take it away')
+  document.getElementById('welcome')?.classList.toggle("hidden")
+  drawKittens()
 }
 
 
@@ -88,7 +186,7 @@ function getStarted() {
 
 /**
  * Defines the Properties of a Kitten
- * @typedef {{id:sting, name: string, mood: string, affection: number}} Kitten
+ * @typedef {{id:string, name: string, mood: string, affection: number}} Kitten
  */
 
 
@@ -101,4 +199,5 @@ function generateId() {
   return Math.floor(Math.random() * 10000000) + "-" + Math.floor(Math.random() * 10000000)
 }
 
-loadKittens();
+loadKittens()
+drawKittens()
