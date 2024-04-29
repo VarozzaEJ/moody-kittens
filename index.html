@@ -9,6 +9,9 @@
   <link rel="shortcut icon" href="moody-logo.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Catamaran&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -17,7 +20,7 @@
     <form  id="addKitten" onsubmit="addKitten(event)">
       <div class="d-flex">
         <input placeholder="Name" placeholder="Mood" type="text" name="name" mood="happy" affection="4"  />
-        <button class="btn-special" type="submit">
+        <button class="btn-special jersey-15-regular" type="submit">
           /ᐠ｡ꞈ｡ᐟ\
         </button>
       </div>
@@ -29,9 +32,9 @@
       
 
     </div>
-    <input id="clearKittens" type="button" class="button danger" : hover : focus value="Remove All Cats?" onclick="clearKittens('${kittens}')">
+    <input id="clearKittens" type="button" class="button danger jersey-15-regular" : hover : focus value="Remove All Cats?" onclick="clearKittens('${kittens}')">
    <button class="fab" style="justify-content: right;" onclick="showKittenForm()" title="New Cat">
-    <i>New Cat</i>
+    <i class="jersey-15-regular">New Cat</i>
   </button>
     </main>
   <footer class="card bg-dark text-light p-2 d-flex align-items-center justify-content-center">

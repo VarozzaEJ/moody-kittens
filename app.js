@@ -22,7 +22,7 @@ function addKitten(event) {
     affection: 3,
   }
 
-  findKittenByName()
+  findKittenByName(kitten.name)
   kittens.push(kitten)
   saveKittens()
   form.reset()
@@ -31,15 +31,17 @@ function addKitten(event) {
 
 function findKittenByName(name) {
   let cat = kittens.find(kittens => kittens.name == name)
-  if (cat == 1){
+  if (cat != undefined){
     throw new Error("Invalid Kitten Name")
   }
   return(cat)
+
 }
 
 function showKittenForm() {
   document.getElementById('addKitten')?.classList.toggle("hidden")
 }
+
 /**
  * Converts the kittens array to a JSON string then
  * Saves the string to localstorage at the key kittens 
@@ -71,16 +73,18 @@ function drawKittens() {
   let kittensTemplate = ""
   kittens.forEach(kitten => {
     kittensTemplate += `
-    <div id="kittens" class="d-flex align-items-center flex-wrap">
+    
+    <div id="kitten" class="d-flex align-items-center flex-wrap "jersey-15-regular"">
     <img id="kittenPicture" class="kitten" src="cat-7563332_1280.png" height="200" alt="Moody Kittens">
     </div>
     <div>
-      <p class="catName">${kitten.name}</p>
-      <b>Mood: ${kitten.mood}  </b>
-      <p id="affectionCount">Affection: ${kitten.affection}  </p>
-      <input type="button" class="button" : hover : focus value="PET" onclick="pet('${kitten.id}')">
-      <input type="button" class="button" : hover : focus  value="Give Catnip" onclick="catnip('${kitten.id}')">
+      <p class="catName jersey-15-regular">${kitten.name}</p>
+      <b class="jersey-15-regular">Mood: ${kitten.mood}  </b>
+      <p id="affectionCount" class="jersey-15-regular">Affection: ${kitten.affection}  </p>
+      <input type="button" class="button jersey-15-regular" : hover : focus value="PET" onclick="pet('${kitten.id}')">
+      <input type="button" class="button jersey-15-regular" : hover : focus  value="Give Catnip" onclick="catnip('${kitten.id}')">
     </div>
+    
     `
   })
   kittenListElement.innerHTML = kittensTemplate
@@ -144,14 +148,22 @@ function catnip(id) {
  * @param {Kitten} kitten 
  */
 function setKittenMood(kitten) {
+  let pictureTemplate = ""
   if(kitten.affection >= 5){
     kitten.mood = "Happy"
     let image = document.getElementById('kittenPicture')
-    image.src = 'cat-7563332_1280.png'
+    kittens.forEach(kitten => {
+      pictureTemplate +=
+      image.src = 'cat-7563332_1280.png'
+    })
+    
   }else{
     kitten.mood = "Annoyed"
     let image = document.getElementById('kittenPicture')
-    image.src = 'b6cca355c8343e0cb7b3c80ba0e04ff4.jpg'
+    kittens.forEach(kitten => {
+      pictureTemplate +=
+      image.src = 'b6cca355c8343e0cb7b3c80ba0e04ff4.jpg'
+    })
 }
 
 }

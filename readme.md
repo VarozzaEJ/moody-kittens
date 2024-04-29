@@ -36,5 +36,5 @@ The basic design and layout for this app has been mocked out and the names of th
 - [x] Kittens can be deleted 
 - [x] Kittens have at least two buttons that affect the kitten's mood in different ways 
 - [ ] Kitten's and their mood persist through page reloads 
-- [ ] Kitten's with the same name as an already present kitten cannot be added 
+- [x] Kitten's with the same name as an already present kitten cannot be added 
 - [x] Kittens are visible when the page reloads
