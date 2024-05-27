@@ -1,9 +1,6 @@
 let kittens = []
 
-let uniqueName = Array.from(new Set(kittens.map(a => a.id))).map(id => {
-  return kittens.find(a => a.id === id)
-})
-console.log(uniqueName)
+
 /**
  * Called when submitting the new Kitten Form
  * This method will pull data from the form
@@ -19,7 +16,8 @@ function addKitten(event) {
     id: generateId(),
     name: form.name.value,
     mood: "Confused",
-    affection: 3,
+    affection: 3, 
+    img: 'cat-7563332_1280.png',
   }
 
   findKittenByName(kitten.name)
@@ -61,6 +59,7 @@ function loadKittens() {
   if(storedKittens) {
     kittens = storedKittens
   }
+  drawKittens()
 }
 
 /**
@@ -75,8 +74,9 @@ function drawKittens() {
     kittensTemplate += `
     
     <div id="kitten" class="d-flex align-items-center flex-wrap "jersey-15-regular"">
-    <img id="kittenPicture" class="kitten" src="cat-7563332_1280.png" height="200" alt="Moody Kittens">
+    <img id="kittenPicture" src="cat-7563332_1280.png" height="200" alt="Moody Kittens">
     </div>
+    
     <div>
       <p class="catName jersey-15-regular">${kitten.name}</p>
       <b class="jersey-15-regular">Mood: ${kitten.mood}  </b>
@@ -125,7 +125,10 @@ function pet(id) {
   }else{
     kitten.affection -= 1
   }
+  drawKittens()
 setKittenMood(kitten)
+//changeKittenPicture(kitten)
+
 console.log(kitten)
 }
 
@@ -139,7 +142,9 @@ function catnip(id) {
   let kitten = findKittenById(id)
   kitten.mood = "Tolerant"
   kitten.affection = 5
+  drawKittens()
   setKittenMood(kitten)
+  //changeKittenPicture(kitten)
   console.log(kitten)
 }
 
@@ -148,26 +153,34 @@ function catnip(id) {
  * @param {Kitten} kitten 
  */
 function setKittenMood(kitten) {
-  let pictureTemplate = ""
   if(kitten.affection >= 5){
     kitten.mood = "Happy"
     let image = document.getElementById('kittenPicture')
-    kittens.forEach(kitten => {
-      pictureTemplate +=
-      image.src = 'cat-7563332_1280.png'
-    })
-    
+    image.src = 'cat-7563332_1280.png'
   }else{
     kitten.mood = "Annoyed"
     let image = document.getElementById('kittenPicture')
-    kittens.forEach(kitten => {
-      pictureTemplate +=
-      image.src = 'b6cca355c8343e0cb7b3c80ba0e04ff4.jpg'
-    })
+    image.src = 'b6cca355c8343e0cb7b3c80ba0e04ff4.jpg'
+}
 }
 
-}
 
+
+
+
+
+
+
+function changeKittenPicture(kitten){
+  
+  if(kitten.affection <= 5){
+    let img = document.getElementById('kittenPicture')
+    img = "b6cca355c8343e0cb7b3c80ba0e04ff4.jpg"
+    drawKittens()
+  }
+  
+  saveKittens()
+}
 
 
 
