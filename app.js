@@ -1,6 +1,7 @@
 let kittens = []
 
 
+
 /**
  * Called when submitting the new Kitten Form
  * This method will pull data from the form
@@ -16,8 +17,9 @@ function addKitten(event) {
     id: generateId(),
     name: form.name.value,
     mood: "Confused",
-    affection: 3, 
-    img: 'cat-7563332_1280.png',
+    affection: "5", 
+    image: "cat-7563332_1280.png",
+    defaultImage: "Kitten",
   }
 
   findKittenByName(kitten.name)
@@ -74,7 +76,7 @@ function drawKittens() {
     kittensTemplate += `
     
     <div id="kitten" class="d-flex align-items-center flex-wrap "jersey-15-regular"">
-    <img id="kittenPicture" src="cat-7563332_1280.png" height="200" alt="Moody Kittens">
+    <img id="kittenPicture" src=${kitten.image} height="200" width="200" alt=${kitten.defaultImage}>
     </div>
     
     <div>
@@ -125,7 +127,7 @@ function pet(id) {
   }else{
     kitten.affection -= 1
   }
-  drawKittens()
+  //drawKittens()
 setKittenMood(kitten)
 //changeKittenPicture(kitten)
 
@@ -142,7 +144,7 @@ function catnip(id) {
   let kitten = findKittenById(id)
   kitten.mood = "Tolerant"
   kitten.affection = 5
-  drawKittens()
+  //drawKittens()
   setKittenMood(kitten)
   //changeKittenPicture(kitten)
   console.log(kitten)
@@ -155,13 +157,15 @@ function catnip(id) {
 function setKittenMood(kitten) {
   if(kitten.affection >= 5){
     kitten.mood = "Happy"
-    let image = document.getElementById('kittenPicture')
-    image.src = 'cat-7563332_1280.png'
+    kitten.image = 'cat-7563332_1280.png'
+    kitten.defaultImage = 'cat-7563332_1280.png'
   }else{
     kitten.mood = "Annoyed"
-    let image = document.getElementById('kittenPicture')
-    image.src = 'b6cca355c8343e0cb7b3c80ba0e04ff4.jpg'
+    kitten.image = "b6cca355c8343e0cb7b3c80ba0e04ff4.jpg"
+    kitten.defaultImage = "b6cca355c8343e0cb7b3c80ba0e04ff4.jpg"
 }
+drawKittens()
+saveKittens()
 }
 
 
@@ -171,16 +175,6 @@ function setKittenMood(kitten) {
 
 
 
-function changeKittenPicture(kitten){
-  
-  if(kitten.affection <= 5){
-    let img = document.getElementById('kittenPicture')
-    img = "b6cca355c8343e0cb7b3c80ba0e04ff4.jpg"
-    drawKittens()
-  }
-  
-  saveKittens()
-}
 
 
 
@@ -223,6 +217,6 @@ function getStarted() {
 function generateId() {
   return Math.floor(Math.random() * 10000000) + "-" + Math.floor(Math.random() * 10000000)
 }
-
 loadKittens()
+saveKittens()
 drawKittens()
